@@ -3,11 +3,12 @@ import customtkinter
 import tkinter as tk
 
 
-class ShowOnlyBtn(customtkinter.CTkButton):
+class SearchEntry(customtkinter.CTkEntry):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.configure(
-            text='Apply'
+            placeholder_text='Enter book or author: ',
+            width=220
         )
 
 
@@ -23,9 +24,9 @@ class CheckBoxesFrame(customtkinter.CTkScrollableFrame):
         # will be frame with checkboxes for show only tags
         self.configure(
             width=220,
-            height=320,
+            height=250,
         )
-        
+
         # need to create get_tags method for this tags
         self.tags = ['Python', 'SQL', 'Project Managment', 'JS', 'Cybersecurity']
         self.variables = []
@@ -61,7 +62,7 @@ class SortingMenu(customtkinter.CTkOptionMenu):
                 'Option 5',
             ]
         )
-        self.set("None")
+        self.set(self.cget('values')[0])
 
 
 class MainWindow(customtkinter.CTk):
@@ -77,20 +78,30 @@ class MainWindow(customtkinter.CTk):
         self.book_frame = ScrollableBookFrame(self)
         self.book_frame.place(x=315, y=5)
 
+        self.search_entry = SearchEntry(self)
+        self.search_entry.bind('<Return>', self.search_book)
+        self.search_entry.place(x=50, y=90)
+
+        self.search_btn = customtkinter.CTkButton(self, text='Search',
+                                                  width=80,
+                                                  command=self.search_book)
+        self.search_btn.place(x=190, y=130)
+
         self.sorting_label = HomePageLabel(self, text='Sorting')
-        self.sorting_label.place(x=112, y=50)
+        self.sorting_label.place(x=112, y=210)
 
         self.sorting_menu = SortingMenu(self, command=self.sorting_books)
-        self.sorting_menu.place(x=90, y=120)
+        self.sorting_menu.place(x=90, y=250)
 
         self.show_only_label = HomePageLabel(self, text='Show Only')
-        self.show_only_label.place(x=90, y=200)
+        self.show_only_label.place(x=50, y=340)
 
         self.show_only_frame = CheckBoxesFrame(self)
-        self.show_only_frame.place(x=50, y=270)
+        self.show_only_frame.place(x=50, y=380)
 
-        self.show_only_btn = ShowOnlyBtn(self, command=self.show_only_books)
-        self.show_only_btn.place(x=150, y=610)
+        self.show_only_btn = customtkinter.CTkButton(self, text='Apply',
+                                                     command=self.show_only_books)
+        self.show_only_btn.place(x=150, y=660)
 
     def sorting_books(self, choice):
         # Here will be function for sorting books by attr
@@ -103,3 +114,9 @@ class MainWindow(customtkinter.CTk):
             if var.get():
                 selected_tags.append(tag)
         print(selected_tags)
+
+    def search_book(self, event=None):
+        # here will be book searching by author or title
+        search_request_text = self.search_entry.get()
+        print(search_request_text)
+        self.search_entry.delete(0, 'end')
