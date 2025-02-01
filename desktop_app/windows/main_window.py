@@ -7,6 +7,16 @@ class ScrollableBookFrame(customtkinter.CTkScrollableFrame):
         self.configure(width=650, height=700)
 
 
+class CheckBoxesFrame(customtkinter.CTkFrame):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        # will be frame with checkboxes for show only tags
+        self.configure(
+            width=220,
+            height=320,
+        )
+
+
 class HomePageLabel(customtkinter.CTkLabel):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
@@ -50,6 +60,16 @@ class MainWindow(customtkinter.CTk):
         self.sorting_menu = SortingMenu(self, command=self.sorting_books)
         self.sorting_menu.place(x=90, y=120)
 
+        self.show_only_label = HomePageLabel(self, text='Show Only')
+        self.show_only_label.place(x=90, y=200)
+
+        self.show_only_frame = CheckBoxesFrame(self)
+        self.show_only_frame.place(x=50, y=270)
+
     def sorting_books(self, choice):
         # Here will be function for sorting books by attr
         print(choice)
+
+    def show_only_books(self):
+        # Here will be function for show only books what's activated by btn and looking for books tag
+        pass
