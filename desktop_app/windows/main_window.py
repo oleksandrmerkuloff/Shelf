@@ -1,5 +1,15 @@
 import customtkinter
 
+import tkinter as tk
+
+
+class ShowOnlyBtn(customtkinter.CTkButton):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.configure(
+            text='Apply'
+        )
+
 
 class ScrollableBookFrame(customtkinter.CTkScrollableFrame):
     def __init__(self, master, *args, **kwargs):
@@ -7,7 +17,7 @@ class ScrollableBookFrame(customtkinter.CTkScrollableFrame):
         self.configure(width=650, height=700)
 
 
-class CheckBoxesFrame(customtkinter.CTkFrame):
+class CheckBoxesFrame(customtkinter.CTkScrollableFrame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         # will be frame with checkboxes for show only tags
@@ -15,6 +25,19 @@ class CheckBoxesFrame(customtkinter.CTkFrame):
             width=220,
             height=320,
         )
+        
+        # need to create get_tags method for this tags
+        self.tags = ['Python', 'SQL', 'Project Managment', 'JS', 'Cybersecurity']
+        self.variables = []
+
+        self.setup_checkboxes()
+
+    def setup_checkboxes(self):
+        for tag in self.tags:
+            var = tk.IntVar()
+            tag_checkbox = customtkinter.CTkCheckBox(self, text=tag, variable=var)
+            tag_checkbox.grid(sticky=tk.W, ipady=2)
+            self.variables.append(var)
 
 
 class HomePageLabel(customtkinter.CTkLabel):
@@ -66,10 +89,17 @@ class MainWindow(customtkinter.CTk):
         self.show_only_frame = CheckBoxesFrame(self)
         self.show_only_frame.place(x=50, y=270)
 
+        self.show_only_btn = ShowOnlyBtn(self, command=self.show_only_books)
+        self.show_only_btn.place(x=150, y=610)
+
     def sorting_books(self, choice):
         # Here will be function for sorting books by attr
         print(choice)
 
     def show_only_books(self):
         # Here will be function for show only books what's activated by btn and looking for books tag
-        pass
+        selected_tags = []
+        for var, tag in zip(self.show_only_frame.variables, self.show_only_frame.tags):
+            if var.get():
+                selected_tags.append(tag)
+        print(selected_tags)
