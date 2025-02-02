@@ -75,9 +75,11 @@ class MainWindow(customtkinter.CTk):
         self.setup_widgets()
 
     def setup_widgets(self):
+        # Central widget
         self.book_frame = ScrollableBookFrame(self)
         self.book_frame.place(x=315, y=5)
 
+        # Left side
         self.search_entry = SearchEntry(self)
         self.search_entry.bind('<Return>', self.search_book)
         self.search_entry.place(x=50, y=90)
@@ -103,6 +105,24 @@ class MainWindow(customtkinter.CTk):
                                                      command=self.show_only_books)
         self.show_only_btn.place(x=150, y=660)
 
+        # Right side
+        # Change theme btn will be change by icon
+        self.change_theme_btn = customtkinter.CTkButton(self, text='theme switcher',
+                                                        width=50)
+        self.change_theme_btn.place(x=1150, y=20)
+
+        self.account_btn = customtkinter.CTkButton(self, text='My Account',
+                                                   command=self.account_window)
+        self.account_btn.place(x=1060, y=200)
+
+        self.add_book_btn = customtkinter.CTkButton(self, text='Add Book',
+                                                    command=self.add_book)
+        self.add_book_btn.place(x=1060, y=250)
+
+        self.my_shelf_btn = customtkinter.CTkButton(self, text='My Shelf',
+                                                   command=self.my_shelf)
+        self.my_shelf_btn.place(x=1060, y=300)
+
     def sorting_books(self, choice):
         # Here will be function for sorting books by attr
         print(choice)
@@ -120,3 +140,15 @@ class MainWindow(customtkinter.CTk):
         search_request_text = self.search_entry.get()
         print(search_request_text)
         self.search_entry.delete(0, 'end')
+
+    def account_window(self):
+        # open account window
+        print('Open my account window')
+
+    def add_book(self):
+        # open account window
+        print('Add new book')
+
+    def my_shelf(self):
+        # open my shelf window
+        print('My shelf')
