@@ -1,3 +1,15 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def show_books(request):
+    pass
+
+def add_book(request):
+    pass
+
+def update_book(request):
+    pass
+
+
+def delete_book(request):
+    pass
