@@ -1,6 +1,9 @@
 import customtkinter
 
 import tkinter as tk
+import time
+
+from .account import MyAccountWindow
 
 
 class SearchEntry(customtkinter.CTkEntry):
@@ -74,6 +77,9 @@ class MainWindow(customtkinter.CTk):
 
         self.setup_widgets()
 
+        # windows
+        self.account_window = None
+
     def setup_widgets(self):
         # Central widget
         self.book_frame = ScrollableBookFrame(self)
@@ -112,7 +118,7 @@ class MainWindow(customtkinter.CTk):
         self.change_theme_btn.place(x=1150, y=20)
 
         self.account_btn = customtkinter.CTkButton(self, text='My Account',
-                                                   command=self.account_window)
+                                                   command=self.open_account_window)
         self.account_btn.place(x=1060, y=200)
 
         self.add_book_btn = customtkinter.CTkButton(self, text='Add Book',
@@ -141,9 +147,11 @@ class MainWindow(customtkinter.CTk):
         print(search_request_text)
         self.search_entry.delete(0, 'end')
 
-    def account_window(self):
-        # open account window
-        print('Open my account window')
+    def open_account_window(self):
+        if self.account_window is None or not self.account_window.winfo_exists():
+            self.account_window = MyAccountWindow()
+        else:
+            self.account_window.focus()
 
     def add_book(self):
         # open account window
