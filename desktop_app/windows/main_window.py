@@ -1,7 +1,6 @@
 import customtkinter
 
 import tkinter as tk
-import time
 
 from .account import MyAccountWindow
 
@@ -114,7 +113,7 @@ class MainWindow(customtkinter.CTk):
         # Right side
         # Change theme btn will be change by icon
         self.change_theme_btn = customtkinter.CTkButton(self, text='theme switcher',
-                                                        width=50)
+                                                        width=50, command=self.change_theme)
         self.change_theme_btn.place(x=1150, y=20)
 
         self.account_btn = customtkinter.CTkButton(self, text='My Account',
@@ -126,7 +125,7 @@ class MainWindow(customtkinter.CTk):
         self.add_book_btn.place(x=1060, y=250)
 
         self.my_shelf_btn = customtkinter.CTkButton(self, text='My Shelf',
-                                                   command=self.my_shelf)
+                                                    command=self.my_shelf)
         self.my_shelf_btn.place(x=1060, y=300)
 
     def sorting_books(self, choice):
@@ -160,3 +159,10 @@ class MainWindow(customtkinter.CTk):
     def my_shelf(self):
         # open my shelf window
         print('My shelf')
+
+    def change_theme(self):
+        theme_color = customtkinter.get_appearance_mode()
+        if theme_color == 'Dark':
+            customtkinter.set_appearance_mode('light')
+        else:
+            customtkinter.set_appearance_mode('dark')
